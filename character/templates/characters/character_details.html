@@ -1,0 +1,9 @@
+<ul>
+    {% for job in job_list %}
+        {% if job.unlocked %}
+            <li style="color: green">{{ job.job }}, {{ job.current_level }}</li>
+        {% else %}
+            <li style="color: red">{{ job.job }}, {{ job.current_level }}</li>
+        {% endif %}
+    {% endfor %}
+</ul>

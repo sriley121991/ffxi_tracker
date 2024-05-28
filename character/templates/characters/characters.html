@@ -1,0 +1,9 @@
+{% if character_list %}
+    <ul>
+    {% for character in character_list %}
+        <li><a href="{% url 'characters:character_details' character.character_name %}">{{ character.character_name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No Characters. Add new character data?</p>
+{% endif %}
