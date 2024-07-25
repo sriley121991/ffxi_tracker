@@ -4,6 +4,7 @@
         <li><a href="{% url 'characters:character_details' character.character_name %}">{{ character.character_name }}</a></li>
     {% endfor %}
     </ul>
-{% else %}
-    <p>No Characters. Add new character data?</p>
+
+    
 {% endif %}
+<a href="{% url 'characters:new_character' %}"><button>Create New Character</button></a>

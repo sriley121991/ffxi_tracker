@@ -3,9 +3,71 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 
 # Create your models here.
 class Character(models.Model):
+    HUME_MALE = "hume_male"
+    HUME_FEMALE = "hume_female"
+    ELVAAN_MALE = "elvaan_male"
+    ELVAAN_FEMALE = "elvaan_female"
+    TARUTARU_MALE = "tarutaru_male"
+    TARUTARU_FEMALE = "tarutaru_female"
+    GALKA = "galka"
+    MITHRA = "mithra"
+    RACE_CHOICES = [
+        (HUME_MALE, 'Hume ♂'),
+        (HUME_FEMALE, 'Hume ♀'),
+        (ELVAAN_MALE, 'Elvaan ♂'),
+        (ELVAAN_FEMALE, 'Elvaan ♀'),
+        (TARUTARU_MALE, 'Tarutaru ♂'),
+        (TARUTARU_FEMALE, 'Tarutaru ♀'),
+        (GALKA, 'Galka'),
+        (MITHRA, 'Mithra'),
+    ]
+
+    BAHAMUT = 'bahamut'
+    SHIVA = 'shiva'
+    PHOENIX = 'phoenix'
+    CARBUNCLE = 'carbuncle'
+    FENRIR = 'fenrir'
+    SYLPH = 'sylph'
+    VALEFOR = 'valefor'
+    LEVIATHAN = 'leviathan'
+    ODIN = 'odin'
+    QUETZALCOATL = 'quetzalcoatl'
+    SIREN = 'siren'
+    RAGNAROK = 'ragnarok'
+    CERBERUS = 'cerberus'
+    BISMARCK = 'bismarck'
+    LAKSHMI = 'lakshmi'
+    ASURA = 'asura'
+    SERVER_CHOICE = [
+        (BAHAMUT, 'Bahamut'),
+        (SHIVA, 'Shiva'),
+        (PHOENIX, 'Phoenix'),
+        (CARBUNCLE, 'Carbuncle'),
+        (FENRIR, 'Fenrir'),
+        (SYLPH, 'Sylph'),
+        (VALEFOR, 'Valefor'),
+        (LEVIATHAN, 'Leviathan'),
+        (ODIN, 'Odin'),
+        (QUETZALCOATL, 'Quetzalcoatl'),
+        (SIREN, 'Siren'),
+        (RAGNAROK, 'Ragnarok'),
+        (CERBERUS, 'Cerberus'),
+        (BISMARCK, 'Bismarck'),
+        (LAKSHMI, 'Lakshmi'),
+        (ASURA, 'Asura'),
+    ]
+
     character_name = models.CharField(max_length=25)
-    race = models.CharField(max_length=25)
-    server = models.CharField(max_length=30)
+    race = models.CharField(
+        max_length=25,
+        choices=RACE_CHOICES,
+        default=HUME_MALE
+    )
+    server = models.CharField(
+        max_length=30,
+        choices=SERVER_CHOICE,
+        default=ASURA
+    )
 
     def __str__(self):
         return self.character_name
