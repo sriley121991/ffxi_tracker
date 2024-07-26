@@ -57,7 +57,7 @@ class Character(models.Model):
         (ASURA, 'Asura'),
     ]
 
-    character_name = models.CharField(max_length=25)
+    character_name = models.CharField(max_length=25,unique=True)
     race = models.CharField(
         max_length=25,
         choices=RACE_CHOICES,
@@ -97,6 +97,20 @@ class Job(models.Model):
     def __str__(self):
         return self.job_abbreviation.upper()
 
+class CharacterUnlockedJobsManager(models.Manager):
+    def set_default_jobs(self, character_id):
+        default_job_list = ['WAR','MNK','WHM','BLM','RDM','THF']
+        jobs = Job.objects.all()
+        for j in jobs:
+            character = character_id
+            job = Job.objects.get(pk=j.pk)
+            current_level = 1
+            unlocked=False
+            if j.job_abbreviation in default_job_list:
+                unlocked=True
+            unlocked_job = self.create(character=character,job=job,unlocked=unlocked,current_level=current_level)
+            unlocked_job.save()
+
 class CharacterUnlockedJobs(models.Model):
     character = models.ForeignKey(Character, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
@@ -108,6 +122,8 @@ class CharacterUnlockedJobs(models.Model):
             MinValueValidator(1)
         ]
     )
+
+    objects = CharacterUnlockedJobsManager()
 
     def __str__(self):
         return ""

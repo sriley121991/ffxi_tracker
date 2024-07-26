@@ -1,3 +1,7 @@
+<h1>{{ character.character_name }}</h1>
+<p>{{ character.get_race_display }}</p>
+<p>{{ character.get_server_display }}</p>
+
 <ul>
     {% for job in job_list %}
         {% if job.unlocked %}
@@ -7,3 +11,7 @@
         {% endif %}
     {% endfor %}
 </ul>
+
+<a href="{% url "characters:update_character" character.character_name %}"><button>Update Character Details</button></a>
+
+<a href="{% url "characters:characters" %}"><button>Character List</button></a>

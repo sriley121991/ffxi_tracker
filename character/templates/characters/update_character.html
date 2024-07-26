@@ -1,0 +1,7 @@
+<h1>Update Character</h1>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    {{ character_form.as_p }}
+    <input type="submit" value="Update">
+</form>
