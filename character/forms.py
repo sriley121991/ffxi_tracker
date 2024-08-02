@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Character, CharacterUnlockedJobs
+from .models import Character, CharacterJobs
 
 class CharacterForm(ModelForm):
     class Meta:
@@ -9,5 +9,5 @@ class CharacterForm(ModelForm):
 
 class UnlockedJobsForm(ModelForm):
     class Meta:
-        model = CharacterUnlockedJobs
+        model = CharacterJobs
         fields = '__all__'

@@ -97,7 +97,7 @@ class Job(models.Model):
     def __str__(self):
         return self.job_abbreviation.upper()
 
-class CharacterUnlockedJobsManager(models.Manager):
+class CharacterJobsManager(models.Manager):
     def set_default_jobs(self, character_id):
         default_job_list = ['WAR','MNK','WHM','BLM','RDM','THF']
         jobs = Job.objects.all()
@@ -111,7 +111,7 @@ class CharacterUnlockedJobsManager(models.Manager):
             unlocked_job = self.create(character=character,job=job,unlocked=unlocked,current_level=current_level)
             unlocked_job.save()
 
-class CharacterUnlockedJobs(models.Model):
+class CharacterJobs(models.Model):
     character = models.ForeignKey(Character, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
     unlocked = models.BooleanField(default=False)
@@ -123,14 +123,73 @@ class CharacterUnlockedJobs(models.Model):
         ]
     )
 
-    objects = CharacterUnlockedJobsManager()
+    objects = CharacterJobsManager()
 
     def __str__(self):
         return ""
 
 class Spell(models.Model):
     spell_name = models.CharField(max_length=50)
-
-
     def __str__(self):
         return self.spell_name.title()
+    
+class JobArmor(models.Model):
+    HEAD = 'head'
+    BODY = 'body'
+    HANDS = 'hands'
+    LEGS = 'legs'
+    FEET = 'feet'
+    SLOT_CHOICES = [
+        (HEAD, "Head"),
+        (BODY, 'Body'),
+        (HANDS, 'Hands'),
+        (LEGS, 'Legs'),
+        (FEET, 'Feet'),
+    ]
+
+    ARTIFACT = 'artifact'
+    RELIC = 'relic'
+    EMPYREAN = 'empyrean'
+    ARMOR_TYPE_CHOICES = [
+        (ARTIFACT, 'Artifact'),
+        (RELIC, 'Relic'),
+        (EMPYREAN, 'Empyrean'),
+    ]
+
+    job = models.ForeignKey(Job, on_delete=models.CASCADE)
+    slot = models.CharField(
+        max_length=15,
+        choices=SLOT_CHOICES
+    )
+    armor_type = models.CharField(
+        max_length=15,
+        choices=ARMOR_TYPE_CHOICES
+    )
+
+
+class CharacterJobArmor(models.Model):
+    PLUS_ONE = '+1'
+    PLUS_TWO = '+2'
+    ONE_ZERO_NINE = '109'
+    ONE_NINETEEN = '119'
+    ONE_NINETEEN_PLUS_ONE = '119 +1'
+    ONE_NINETEEN_PLUS_TWO = '119 +2'
+    ONE_NINETEEN_PLUS_THREE = '119 +3'
+    UPGRADE_VERSION_CHOICES = [
+        (PLUS_ONE, '+1'),
+        (PLUS_TWO, '+2'),
+        (ONE_ZERO_NINE, '109'),
+        (ONE_NINETEEN, '119'),
+        (ONE_NINETEEN_PLUS_ONE, '119 +1'),
+        (ONE_NINETEEN_PLUS_TWO, '119 +2'),
+        (ONE_NINETEEN_PLUS_THREE, '119 +3'),
+    ]
+
+    character = models.ForeignKey(Character, on_delete=models.CASCADE)
+    armor_piece = models.ForeignKey(JobArmor, on_delete=models.CASCADE)
+    acquired = models.BooleanField(default=False)
+    reforged = models.BooleanField(default=False)
+    upgrade_version = models.CharField(
+        max_length=15,
+        choices=UPGRADE_VERSION_CHOICES
+    )

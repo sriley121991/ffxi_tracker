@@ -14,10 +14,13 @@ def characters(request):
 
 def character_detail(request, character_name):
     character = models.Character.objects.get(character_name=character_name)
-    job_list = models.CharacterUnlockedJobs.objects.filter(character__character_name=character_name)
+    jobs = models.Job.objects.all()
+    job_list = models.CharacterJobs.objects.filter(character__character_name=character_name)
+    # armor_list = models.JobArmor.objects.filter(jobs.pk)
     context = {
         "job_list": job_list,
         "character": character,
+        # "armor_list": armor_list,
     }
     return render(request, "characters/character_details.html", context)
 
@@ -27,8 +30,8 @@ def new_character(request):
         form.save()
 
         char = models.Character.objects.get(character_name=form.data.get('character_name'))
-        models.CharacterUnlockedJobs.objects.set_default_jobs(char)
-        return redirect("characters")
+        models.CharacterJobs.objects.set_default_jobs(char)
+        return redirect("characters:characters")
     else:
         form = CharacterForm()
     context = {"form": form}
